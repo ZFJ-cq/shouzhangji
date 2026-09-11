@@ -1,13 +1,10 @@
 'use client';
 
 import { useApp } from '@/lib/AppContext';
+import NumberInput from '@/components/NumberInput';
 
 export default function WageTab() {
   const { workParams, setWorkParams, realHourly, nominalHourly, wageDiffPercent, annualIncome, annualWorkCost, monthlyWorkHours, monthlyCommuteHours, monthlyOvertimeHours, totalMonthlyHours, monthlyNetIncome } = useApp();
-
-  const handleChange = (field: string, value: number) => {
-    setWorkParams({ [field]: value });
-  };
 
   return (
     <div className="animate-fade-in">
@@ -23,30 +20,42 @@ export default function WageTab() {
           工作时间参数
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-[var(--c-text-body)] font-medium mb-2">到手月薪</label>
-            <input type="number" inputMode="decimal" value={workParams.monthlySalary} onChange={e => handleChange('monthlySalary', parseFloat(e.target.value) || 0)} className="w-full px-4 py-3 rounded-xl border border-[var(--c-border)] bg-[var(--c-input)] text-[var(--c-text)] focus:outline-none focus:border-[var(--c-accent)]" />
-          </div>
-          <div>
-            <label className="block text-[var(--c-text-body)] font-medium mb-2">一年发薪月数</label>
-            <input type="number" inputMode="numeric" value={workParams.salaryMonths} onChange={e => handleChange('salaryMonths', parseInt(e.target.value) || 0)} className="w-full px-4 py-3 rounded-xl border border-[var(--c-border)] bg-[var(--c-input)] text-[var(--c-text)] focus:outline-none focus:border-[var(--c-accent)]" />
-          </div>
-          <div>
-            <label className="block text-[var(--c-text-body)] font-medium mb-2">每月为工作花的钱</label>
-            <input type="number" inputMode="decimal" value={workParams.monthlyWorkCost} onChange={e => handleChange('monthlyWorkCost', parseFloat(e.target.value) || 0)} className="w-full px-4 py-3 rounded-xl border border-[var(--c-border)] bg-[var(--c-input)] text-[var(--c-text)] focus:outline-none focus:border-[var(--c-accent)]" />
-          </div>
-          <div>
-            <label className="block text-[var(--c-text-body)] font-medium mb-2">每天常规在公司小时</label>
-            <input type="number" inputMode="decimal" value={workParams.dailyWorkHours} onChange={e => handleChange('dailyWorkHours', parseFloat(e.target.value) || 0)} className="w-full px-4 py-3 rounded-xl border border-[var(--c-border)] bg-[var(--c-input)] text-[var(--c-text)] focus:outline-none focus:border-[var(--c-accent)]" />
-          </div>
-          <div>
-            <label className="block text-[var(--c-text-body)] font-medium mb-2">单程通勤分钟</label>
-            <input type="number" inputMode="numeric" value={workParams.commuteMinutes} onChange={e => handleChange('commuteMinutes', parseInt(e.target.value) || 0)} className="w-full px-4 py-3 rounded-xl border border-[var(--c-border)] bg-[var(--c-input)] text-[var(--c-text)] focus:outline-none focus:border-[var(--c-accent)]" />
-          </div>
-          <div>
-            <label className="block text-[var(--c-text-body)] font-medium mb-2">每周额外加班小时</label>
-            <input type="number" inputMode="decimal" value={workParams.weeklyOvertimeHours} onChange={e => handleChange('weeklyOvertimeHours', parseFloat(e.target.value) || 0)} className="w-full px-4 py-3 rounded-xl border border-[var(--c-border)] bg-[var(--c-input)] text-[var(--c-text)] focus:outline-none focus:border-[var(--c-accent)]" />
-          </div>
+          <NumberInput
+            label="到手月薪"
+            inputMode="decimal"
+            value={workParams.monthlySalary}
+            onChange={v => setWorkParams({ monthlySalary: v })}
+          />
+          <NumberInput
+            label="一年发薪月数"
+            inputMode="numeric"
+            value={workParams.salaryMonths}
+            onChange={v => setWorkParams({ salaryMonths: v })}
+          />
+          <NumberInput
+            label="每月为工作花的钱"
+            inputMode="decimal"
+            value={workParams.monthlyWorkCost}
+            onChange={v => setWorkParams({ monthlyWorkCost: v })}
+          />
+          <NumberInput
+            label="每天常规在公司小时"
+            inputMode="decimal"
+            value={workParams.dailyWorkHours}
+            onChange={v => setWorkParams({ dailyWorkHours: v })}
+          />
+          <NumberInput
+            label="单程通勤分钟"
+            inputMode="numeric"
+            value={workParams.commuteMinutes}
+            onChange={v => setWorkParams({ commuteMinutes: v })}
+          />
+          <NumberInput
+            label="每周额外加班小时"
+            inputMode="decimal"
+            value={workParams.weeklyOvertimeHours}
+            onChange={v => setWorkParams({ weeklyOvertimeHours: v })}
+          />
         </div>
         <div className="bg-[var(--c-warn-bg)] border-l-4 border-[var(--c-warn-border)] rounded-r-xl p-4 mt-4">
           <p className="text-[var(--c-warn-text)]">在公司小时包含无法自由支配的午休，不含额外加班。输入变化会自动保存，所有数值采用年度口径。</p>
@@ -57,7 +66,7 @@ export default function WageTab() {
       <div className="bg-[var(--c-surface)] border border-[var(--c-border)] rounded-2xl p-6 mb-6">
         <p className="text-[var(--c-text-body)] font-medium mb-2">名义时薪</p>
         <p className="text-4xl font-bold text-[var(--c-text)] mb-2">¥{nominalHourly.toFixed(2)}<span className="text-2xl">/时</span></p>
-        <p className="text-[var(--c-text-muted)]">到手月薪 ÷ 21.75  8</p>
+        <p className="text-[var(--c-text-muted)]">到手月薪 ÷ 21.75 ÷ 8</p>
       </div>
 
       {/* Real Wage */}
